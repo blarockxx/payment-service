@@ -23,6 +23,14 @@ class PaymentTestCase(unittest.TestCase):
             'status': 'pending'
         })
         self.assertEqual(response.status_code, 201)
+        self.assertIn(b'Payment created', response.data)
+
+    def test_create_payment_missing_field(self):
+        response = self.client.post('/payments', json={
+            'user_id': 1,
+            'amount': 100.0
+        })
+        self.assertEqual(response.status_code, 400)
 
 if __name__ == '__main__':
     unittest.main()
